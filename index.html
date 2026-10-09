@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#07111f">
-<title>ΕΞΩΤΕΡΙΚΗ ΦΡΟΥΡΗΣΗ — V4.80</title>
+<title>Υ.Ε.Φ.Κ.Κ — Υπηρεσιακός Οδηγός</title>
 <style>
 :root{
   --bg:#050a12; --panel:#0b1422; --panel2:#101d2e; --text:#f3f7fb;
@@ -73,13 +73,18 @@ body{background:radial-gradient(900px 500px at 70% -10%,#123d63 0%,#061526 48%,#
 @media(max-width:900px){.profileBuyoutGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.profileBuyoutGrid{grid-template-columns:1fr}}
 
-/* Y.E.F.K.K v5.0 — consistent shift colors (including five-day dates) */
+/* Y.E.F.K.K v5.1 — consistent shift colors (including five-day dates) */
 .shiftPalette button[data-shift="PP"],.shift-PP,.calCell.shiftCell-PP .calShiftBadge{background:#facc15!important;color:#171717!important}
 .shiftPalette button[data-shift="A"],.shift-A,.calCell.shiftCell-A .calShiftBadge{background:#22c55e!important;color:#102318!important}
 .shiftPalette button[data-shift="N"],.shift-N,.calCell.shiftCell-N .calShiftBadge{background:#ef4444!important;color:white!important}
 .shiftPalette button[data-shift="AD"],.shift-AD,.calCell.shiftCell-AD .calShiftBadge{background:#9ca3af!important;color:#111827!important}
 .shiftPalette button[data-shift="R"],.shift-R,.calCell.shiftCell-R .calShiftBadge{background:#2563eb!important;color:white!important}
 .calCell.shiftCell-PP{background:rgba(250,204,21,.20)!important}.calCell.shiftCell-A{background:rgba(34,197,94,.20)!important}.calCell.shiftCell-N{background:rgba(239,68,68,.20)!important}.calCell.shiftCell-AD{background:rgba(156,163,175,.25)!important}.calCell.shiftCell-R{background:rgba(37,99,235,.20)!important}
+.shiftPalette button[data-shift="LEAVE"],.shift-LEAVE,.calCell.shiftCell-LEAVE .calShiftBadge{background:#f97316!important;color:#fff!important}
+.calCell.shiftCell-LEAVE{background:rgba(249,115,22,.20)!important}
+.shiftPalette{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.shiftPalette button[data-shift="LEAVE"]{font-size:13px!important}
+.calCell.shiftCell-LEAVE .calShiftBadge{font-size:10px!important;min-width:0!important}
 </style>
 
 <style>
@@ -217,11 +222,11 @@ html[data-theme="light"] .copyRangeBox .rangeHint{color:#216348;background:#eefa
   box-shadow:0 0 10px rgba(56,217,255,.45);
 }
 .signatureName{
-  font-family:"Brush Script MT","Segoe Script","URW Chancery L",cursive;
+  font-family:Arial,Helvetica,sans-serif;
   font-size:31px;
   font-weight:700;
-  font-style:italic;
-  letter-spacing:.8px;
+  font-style:normal;
+  letter-spacing:1px;
   background:linear-gradient(90deg,#48ff9a,#38d9ff,#b57cff);
   -webkit-background-clip:text;
   background-clip:text;
@@ -702,6 +707,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
         <div><label>Μέσος μηνιαίος συντάξιμος μισθός (€)</label><input id="scenarioWage" type="number" min="0" step="10" value="1800" oninput="updateManualPension()"></div>
       </div>
       <div id="manualPensionResult" class="notice" aria-live="polite"></div>
+      <div class="tableWrap"><table class="table" aria-label="Αναλυτικά αποτελέσματα χειροκίνητου σεναρίου"><thead><tr><th>ΣΤΟΙΧΕΙΟ</th><th>ΧΕΙΡΟΚΙΝΗΤΟ ΣΕΝΑΡΙΟ</th></tr></thead><tbody id="manualPensionTable"></tbody></table></div>
       <p class="muted">Η αριθμητική εκτίμηση αφορά μόνο κύρια σύνταξη (εθνική + ανταποδοτική), προ φόρου και κρατήσεων. Δεν πιστοποιεί ηλικιακές προϋποθέσεις, θεμελίωση, επικουρική ή ΜΤΠΥ. Το ποσό εθνικής σύνταξης είναι ενδεικτική παράμετρος που χρειάζεται έλεγχο ανά έτος.</p>
     </div>
     <div class="section card" style="background:#081321">
@@ -801,9 +807,10 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
     <div class="shiftPalette">
       <button class="shiftBtn active" data-shift="PP" type="button">Π</button>
       <button class="shiftBtn" data-shift="A" type="button">Α</button>
-      <button class="shiftBtn" data-shift="R" type="button">Ρ</button>
       <button class="shiftBtn" data-shift="N" type="button">Ν</button>
-      <button class="shiftBtn" data-shift="AD" type="button">ΑΔ</button>
+      <button class="shiftBtn" data-shift="AD" type="button">Α/Δ</button>
+      <button class="shiftBtn" data-shift="R" type="button">Ρ</button>
+      <button class="shiftBtn" data-shift="LEAVE" type="button">ΑΔΕΙΑ</button>
       <button class="shiftBtn" data-shift="DEL" type="button">Σβήσ.</button>
     </div>
     <div class="calTotals">
@@ -1328,7 +1335,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
 </section>
 <section id="settings" class="page hide">
   <div class="card settingsCard">
-    <h2>⚙️ Ρυθμίσεις</h2><p class="muted">Y.E.F.K.K v5.0 — GEORGE SKLAP</p>
+    <h2>⚙️ Ρυθμίσεις</h2><p class="muted">Y.E.F.K.K v5.1 — GEORGE SKLAP</p>
 
     <div class="settingRow">
       <div>
@@ -1367,7 +1374,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
 </div>
 <div class="sideOverlay" id="sideOverlay"></div>
 <script>
-const pages={home:['ΥΕΦΚΚ','Y.E.F.K.K • Έκδοση 5.0'],salary:['ΜΙΣΘΟΛΟΓΙΟ','ΥΕΦΚΚ • 2026'],pension:['ΣΥΝΤΑΞΙΟΔΟΤΙΚΟΣ ΟΔΗΓΟΣ','Σενάρια ΥΕΦΚΚ'],calendar:['ΗΜΕΡΟΛΟΓΙΟ ΥΠΗΡΕΣΙΑΣ','Βάρδιες • Νύχτες • Πενθήμερα'],stats:['ΣΤΑΤΙΣΤΙΚΑ','Από το ημερολόγιο υπηρεσίας'],laws:['ΝΟΜΟΘΕΤΗΜΑΤΑ','Νομοθεσία και υπηρεσιακό πλαίσιο'],guide:['ΟΔΗΓΟΣ ΕΦΑΡΜΟΓΗΣ','Βήμα-βήμα χρήση της εφαρμογής'],profile:['ΠΡΟΦΙΛ','Τα στοιχεία μου'],settings:['ΡΥΘΜΙΣΕΙΣ','Προσαρμογή εφαρμογής']};
+const pages={home:['ΥΕΦΚΚ','Y.E.F.K.K • Έκδοση 5.1'],salary:['ΜΙΣΘΟΛΟΓΙΟ','ΥΕΦΚΚ • 2026'],pension:['ΣΥΝΤΑΞΙΟΔΟΤΙΚΟΣ ΟΔΗΓΟΣ','Σενάρια ΥΕΦΚΚ'],calendar:['ΗΜΕΡΟΛΟΓΙΟ ΥΠΗΡΕΣΙΑΣ','Βάρδιες • Νύχτες • Πενθήμερα'],stats:['ΣΤΑΤΙΣΤΙΚΑ','Από το ημερολόγιο υπηρεσίας'],laws:['ΝΟΜΟΘΕΤΗΜΑΤΑ','Νομοθεσία και υπηρεσιακό πλαίσιο'],guide:['ΟΔΗΓΟΣ ΕΦΑΡΜΟΓΗΣ','Βήμα-βήμα χρήση της εφαρμογής'],profile:['ΠΡΟΦΙΛ','Τα στοιχεία μου'],settings:['ΡΥΘΜΙΣΕΙΣ','Προσαρμογή εφαρμογής']};
 function closeSidebar(){document.body.classList.remove('menu-open');const t=document.getElementById('menuToggle');if(t)t.setAttribute('aria-expanded','false')}
 function show(page){document.querySelectorAll('.page').forEach(x=>x.classList.add('hide'));document.getElementById(page).classList.remove('hide');document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.getElementById('pageTitle').textContent='ΥΕΦΚΚ';document.getElementById('pageSub').textContent='Με ευθύνη. Με συνέπεια. Με αποστολή.';location.hash=page;closeSidebar()}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.page)));
@@ -2031,7 +2038,7 @@ function renderSalary(){
       </div>
       <div class="notice" style="margin-top:10px">Χωρίς υπερωρίες • χωρίς παραμεθόριο • χωρίς προσωπική διαφορά. Τα πρόσθετα υπολογίζονται ξεχωριστά και δεν ξαναμπαίνουν στον κύριο φόρο.</div>
     </div>`;}
-const shiftMap={P:'Σημ.',A:'Α',R:'Ρ',N:'Ν',AD:'ΑΔ',PP:'Π',PN:'Π/Ν'};
+const shiftMap={P:'Σημ.',A:'Α',R:'Ρ',N:'Ν',AD:'Α/Δ',LEAVE:'ΑΔΕΙΑ',PP:'Π',PN:'Π/Ν'};
 const shiftStoragePrefix='yefkk_calendar_';
 let activeShift='PP';
 let calCursor=null;
@@ -2054,6 +2061,7 @@ function shiftCountsForMonth(y,m){
     const v=readShift(y,m,d);
     if(v==='R') rest++;
     else if(v==='AD') unavailable++;
+    else if(v==='LEAVE') {} // άδεια: ούτε υπηρεσία ούτε ρεπό
     else if(v) service++;
     if(v==='N'||v==='PN') nights++;
   }
@@ -2064,7 +2072,7 @@ function shiftCountsForMonth(y,m){
   // Π ή Α σε Σάββατο/Κυριακή μετρά 1 πενθήμερο.
   for(let d=1;d<=days;d++){
     const dt=new Date(y,m-1,d), dow=dt.getDay(), v=readShift(y,m,d);
-    if(!v || v==='AD' || v==='R') continue;
+    if(!v || v==='AD' || v==='R' || v==='LEAVE') continue;
     if(v==='PN'){
       if(dow===5) five += 1;
       else if(dow===6 || dow===0) five += 1;
@@ -2379,6 +2387,23 @@ function updateManualPension(){
  const national=446.87; // ενδεικτική παράμετρος 2026 — επαλήθευση με e-ΕΦΚΑ πριν από επίσημη χρήση
  const euro=v=>v.toLocaleString('el-GR',{style:'currency',currency:'EUR'});
  out.innerHTML=`<b>${y} + ${combat} = ${total} συντάξιμα έτη (σενάριο)</b><div>Ποσοστό αναπλήρωσης: <b>${rate===null?'—':rate.toFixed(2)+'%'}</b></div><div>Ανταποδοτική: <b>${rate===null?'—':euro(w*rate/100)}</b></div><div>Εθνική (ενδεικτική): <b>${euro(national)}</b></div><div>Εκτιμώμενη μεικτή κύρια: <b>${rate===null?'—':euro(national+w*rate/100)}</b></div>`;
+ const table=document.getElementById('manualPensionTable');
+ if(table){
+   const contributory=rate===null?null:w*rate/100;
+   const gross=contributory===null?null:national+contributory;
+   const health=gross===null?null:gross*0.06;
+   const values=[
+    ['Πραγματικά έτη',String(y)],['Πρόσθετα έτη (υποθετικά)',String(combat)],
+    ['Συντάξιμα έτη (σενάριο)',String(total)],
+    ['Ποσοστό αναπλήρωσης',rate===null?'—':rate.toFixed(2)+'%'],
+    ['Εθνική σύνταξη (ενδεικτική)',euro(national)],
+    ['Ανταποδοτική (εκτίμηση)',contributory===null?'—':euro(contributory)],
+    ['Μεικτή κύρια σύνταξη',gross===null?'—':euro(gross)],
+    ['Ενδεικτική κράτηση υγείας 6%',health===null?'—':euro(health)],
+    ['Μετά την κράτηση υγείας, προ φόρου',gross===null?'—':euro(gross-health)]
+   ];
+   table.innerHTML=values.map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+ }
 }
 
 function calculatePension(){
@@ -2613,7 +2638,7 @@ function lawJump(id){ const e=document.getElementById(id); if(e){ e.scrollIntoVi
 
 <footer class="yefkkSignature">
   <div class="signatureName">GEORGE SKLAP</div>
-  <div class="signatureSub">ΕΞΩΤΕΡΙΚΗ ΦΡΟΥΡΗΣΗ • ΥΠΗΡΕΣΙΑΚΟΣ ΟΔΗΓΟΣ ΥΕΦΚΚ • BY KERMANIDIS</div>
+  <div class="signatureSub">ΕΞΩΤΕΡΙΚΗ ΦΡΟΥΡΗΣΗ • ΥΠΗΡΕΣΙΑΚΟΣ ΟΔΗΓΟΣ ΥΕΦΚΚ • BY GEORGE SKLAP</div>
 </footer>
 
 
@@ -2706,7 +2731,7 @@ function lawJump(id){ const e=document.getElementById(id); if(e){ e.scrollIntoVi
       <div class="psRow" style="border:1px solid #aaa;margin-top:2mm"><span><b>ΚΑΘΑΡΑ ΠΡΟΣΘΕΤΑ</b></span><span class="psAmount">${extraNet}</span></div>
       <div class="psFinal"><span>ΣΥΝΟΛΙΚΟ ΠΛΗΡΩΤΕΟ ΠΟΣΟ ΜΗΝΟΣ ${month}</span><span class="amount">${totalNet}</span></div>
       <div class="psSmall">Χωρίς υπερωρίες • χωρίς παραμεθόριο • χωρίς προσωπική διαφορά. Τα πρόσθετα υπολογίζονται ξεχωριστά και δεν ξαναμπαίνουν στον κύριο φόρο.</div>
-      <div class="psFooter"><span>ΕΞΩΤΕΡΙΚΗ ΦΡΟΥΡΗΣΗ • BY KERMANIDIS</span><span>Εκκαθαριστικό μισθοδοσίας</span></div>`;
+      <div class="psFooter"><span>ΕΞΩΤΕΡΙΚΗ ΦΡΟΥΡΗΣΗ • BY GEORGE SKLAP</span><span>Εκκαθαριστικό μισθοδοσίας</span></div>`;
   }
   window.addEventListener('beforeprint',buildPrintStatement);
 
@@ -2900,7 +2925,7 @@ document.getElementById('calcSalary')?.addEventListener('click',()=>{setTimeout(
     if(!document.getElementById(pageId)) pageId='home';
     document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hide',p.id!==pageId));
     document.querySelectorAll('.nav button[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===pageId));
-    const titles={home:['ΥΕΦΚΚ','Y.E.F.K.K • Έκδοση 5.0'],salary:['Μισθολόγιο','ΥΕΦΚΚ • Μισθολόγιο'],pension:['Συνταξιοδοτικός Οδηγός','ΥΕΦΚΚ • Σύνταξη'],calendar:['Ημερολόγιο','ΥΕΦΚΚ • Υπηρεσία'],stats:['Στατιστικά','ΥΕΦΚΚ • Στατιστικά'],laws:['Νομοθετήματα','ΥΕΦΚΚ • Νομοθεσία'],guide:['Οδηγός ΥΕΦΚΚ','ΥΕΦΚΚ • Οδηγός'],profile:['Προφίλ','ΥΕΦΚΚ • Προσωπικά στοιχεία'],settings:['Ρυθμίσεις','ΥΕΦΚΚ • Ρυθμίσεις']};
+    const titles={home:['ΥΕΦΚΚ','Y.E.F.K.K • Έκδοση 5.1'],salary:['Μισθολόγιο','ΥΕΦΚΚ • Μισθολόγιο'],pension:['Συνταξιοδοτικός Οδηγός','ΥΕΦΚΚ • Σύνταξη'],calendar:['Ημερολόγιο','ΥΕΦΚΚ • Υπηρεσία'],stats:['Στατιστικά','ΥΕΦΚΚ • Στατιστικά'],laws:['Νομοθετήματα','ΥΕΦΚΚ • Νομοθεσία'],guide:['Οδηγός ΥΕΦΚΚ','ΥΕΦΚΚ • Οδηγός'],profile:['Προφίλ','ΥΕΦΚΚ • Προσωπικά στοιχεία'],settings:['Ρυθμίσεις','ΥΕΦΚΚ • Ρυθμίσεις']};
     const h=document.getElementById('pageTitle'),sub=document.getElementById('pageSub');if(h)h.textContent='ΥΕΦΚΚ';if(sub)sub.textContent='Με ευθύνη. Με συνέπεια. Με αποστολή.';
     document.body.classList.remove('menu-open');document.getElementById('menuToggle')?.setAttribute('aria-expanded','false');try{localStorage.setItem('yefkk_activePage',pageId)}catch(e){}window.scrollTo({top:0,behavior:'smooth'});
   }
