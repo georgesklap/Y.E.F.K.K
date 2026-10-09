@@ -72,6 +72,14 @@ body{background:radial-gradient(900px 500px at 70% -10%,#123d63 0%,#061526 48%,#
 .profileBuyoutGrid .rateItem span{font-size:20px;font-weight:900;color:#fff1e5}.profileBuyoutGrid .rateItem b{font-size:12px}.profileBuyoutGrid{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:900px){.profileBuyoutGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.profileBuyoutGrid{grid-template-columns:1fr}}
+
+/* Y.E.F.K.K v5.0 — consistent shift colors (including five-day dates) */
+.shiftPalette button[data-shift="PP"],.shift-PP,.calCell.shiftCell-PP .calShiftBadge{background:#facc15!important;color:#171717!important}
+.shiftPalette button[data-shift="A"],.shift-A,.calCell.shiftCell-A .calShiftBadge{background:#22c55e!important;color:#102318!important}
+.shiftPalette button[data-shift="N"],.shift-N,.calCell.shiftCell-N .calShiftBadge{background:#ef4444!important;color:white!important}
+.shiftPalette button[data-shift="AD"],.shift-AD,.calCell.shiftCell-AD .calShiftBadge{background:#9ca3af!important;color:#111827!important}
+.shiftPalette button[data-shift="R"],.shift-R,.calCell.shiftCell-R .calShiftBadge{background:#2563eb!important;color:white!important}
+.calCell.shiftCell-PP{background:rgba(250,204,21,.20)!important}.calCell.shiftCell-A{background:rgba(34,197,94,.20)!important}.calCell.shiftCell-N{background:rgba(239,68,68,.20)!important}.calCell.shiftCell-AD{background:rgba(156,163,175,.25)!important}.calCell.shiftCell-R{background:rgba(37,99,235,.20)!important}
 </style>
 
 <style>
@@ -560,7 +568,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
     <a class="navExternal" href="https://www.minocp.gov.gr/" target="_blank" rel="noopener noreferrer">🛡️ <span>Υπουργείο Προστασίας του Πολίτη</span> ↗</a>
     <button data-page="settings">⚙️ <span>Ρυθμίσεις</span></button>
   </nav>
-  <div class="sideFooter">ΥΕΦΚΚ<br><small>By KERMANIDI • V4.68</small></div>
+  <div class="sideFooter">ΥΕΦΚΚ<br><small>By GEORGE SKLAP • V4.68</small></div>
 </aside>
 
 <main class="main">
@@ -684,6 +692,18 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
       </div>
     </div>
 
+
+    <div class="section card" style="background:#081321;border-color:#3a85b5">
+      <h3>🧮 Δικό μου σενάριο συνταξιοδότησης</h3>
+      <p class="muted">Δοκίμασε 35, 36, 37, 40 ή όσα πραγματικά έτη επιθυμείς, ανεξάρτητα από το προφίλ. Η μάχιμη πενταετία προστίθεται μόνο ως <b>υποθετικό σενάριο</b>, όχι ως επιβεβαίωση δικαιώματος αναγνώρισης.</p>
+      <div class="formgrid">
+        <div><label>Έτη πραγματικής υπηρεσίας</label><input id="scenarioYears" type="number" min="0" max="50" step="0.5" value="35" oninput="updateManualPension()"></div>
+        <div><label>Πρόσθετα αναγνωρισμένα έτη (σενάριο)</label><select id="scenarioCombat" onchange="updateManualPension()"><option value="0">0 έτη</option><option value="5">5 μάχιμα έτη (υποθετικά)</option></select></div>
+        <div><label>Μέσος μηνιαίος συντάξιμος μισθός (€)</label><input id="scenarioWage" type="number" min="0" step="10" value="1800" oninput="updateManualPension()"></div>
+      </div>
+      <div id="manualPensionResult" class="notice" aria-live="polite"></div>
+      <p class="muted">Η αριθμητική εκτίμηση αφορά μόνο κύρια σύνταξη (εθνική + ανταποδοτική), προ φόρου και κρατήσεων. Δεν πιστοποιεί ηλικιακές προϋποθέσεις, θεμελίωση, επικουρική ή ΜΤΠΥ. Το ποσό εθνικής σύνταξης είναι ενδεικτική παράμετρος που χρειάζεται έλεγχο ανά έτος.</p>
+    </div>
     <div class="section card" style="background:#081321">
       <h3>2. Ηλικία 60 + μάχιμη πενταετία</h3>
       <p class="muted">Εξετάζονται ξεχωριστά όλα τα σενάρια: 60 + 0, 1, 2, 3, 4 ή 5 μάχιμη.</p>
@@ -779,13 +799,11 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
     <div class="weekdays calWeek"><div>ΔΕΥ</div><div>ΤΡΙ</div><div>ΤΕΤ</div><div>ΠΕΜ</div><div>ΠΑΡ</div><div>ΣΑΒ</div><div>ΚΥΡ</div></div>
     <div id="calGrid" class="calGrid"></div>
     <div class="shiftPalette">
-      <button class="shiftBtn active" data-shift="P" type="button">Σημ.</button>
+      <button class="shiftBtn active" data-shift="PP" type="button">Π</button>
       <button class="shiftBtn" data-shift="A" type="button">Α</button>
       <button class="shiftBtn" data-shift="R" type="button">Ρ</button>
       <button class="shiftBtn" data-shift="N" type="button">Ν</button>
-      <button class="shiftBtn" data-shift="AD" type="button">Α/Δ</button>
-      <button class="shiftBtn" data-shift="PP" type="button">Π</button>
-      <button class="shiftBtn" data-shift="PN" type="button">Π/Ν</button>
+      <button class="shiftBtn" data-shift="AD" type="button">ΑΔ</button>
       <button class="shiftBtn" data-shift="DEL" type="button">Σβήσ.</button>
     </div>
     <div class="calTotals">
@@ -1310,7 +1328,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
 </section>
 <section id="settings" class="page hide">
   <div class="card settingsCard">
-    <h2>⚙️ Ρυθμίσεις</h2>
+    <h2>⚙️ Ρυθμίσεις</h2><p class="muted">Y.E.F.K.K v5.0 — GEORGE SKLAP</p>
 
     <div class="settingRow">
       <div>
@@ -1327,6 +1345,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
       </label>
     </div>
 
+    <div class="settingRow"><div><div class="settingTitle">📦 Αντίγραφο ασφαλείας</div><div class="muted settingHint">Εξαγωγή / επαναφορά προφίλ και ημερολογίου σε αρχείο JSON. Το αρχείο μπορεί να περιέχει προσωπικά δεδομένα — φύλαξέ το με ασφάλεια.</div></div><div style="display:grid;gap:8px"><button class="action" type="button" onclick="exportYefkkBackup()">Εξαγωγή</button><button class="action" type="button" onclick="document.getElementById('yefkkBackupInput').click()">Επαναφορά</button><input id="yefkkBackupInput" type="file" accept=".json,application/json" style="display:none" onchange="importYefkkBackup(this)"></div></div>
     <div class="settingRow">
       <div>
         <div class="settingTitle">💾 Αυτόματη αποθήκευση</div>
@@ -1348,7 +1367,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
 </div>
 <div class="sideOverlay" id="sideOverlay"></div>
 <script>
-const pages={home:['ΥΕΦΚΚ','V4.71 • Ενιαία εφαρμογή ΥΕΦΚΚ'],salary:['ΜΙΣΘΟΛΟΓΙΟ','ΥΕΦΚΚ • 2026'],pension:['ΣΥΝΤΑΞΙΟΔΟΤΙΚΟΣ ΟΔΗΓΟΣ','Σενάρια ΥΕΦΚΚ'],calendar:['ΗΜΕΡΟΛΟΓΙΟ ΥΠΗΡΕΣΙΑΣ','Βάρδιες • Νύχτες • Πενθήμερα'],stats:['ΣΤΑΤΙΣΤΙΚΑ','Από το ημερολόγιο υπηρεσίας'],laws:['ΝΟΜΟΘΕΤΗΜΑΤΑ','Νομοθεσία και υπηρεσιακό πλαίσιο'],guide:['ΟΔΗΓΟΣ ΕΦΑΡΜΟΓΗΣ','Βήμα-βήμα χρήση της εφαρμογής'],profile:['ΠΡΟΦΙΛ','Τα στοιχεία μου'],settings:['ΡΥΘΜΙΣΕΙΣ','Προσαρμογή εφαρμογής']};
+const pages={home:['ΥΕΦΚΚ','Y.E.F.K.K • Έκδοση 5.0'],salary:['ΜΙΣΘΟΛΟΓΙΟ','ΥΕΦΚΚ • 2026'],pension:['ΣΥΝΤΑΞΙΟΔΟΤΙΚΟΣ ΟΔΗΓΟΣ','Σενάρια ΥΕΦΚΚ'],calendar:['ΗΜΕΡΟΛΟΓΙΟ ΥΠΗΡΕΣΙΑΣ','Βάρδιες • Νύχτες • Πενθήμερα'],stats:['ΣΤΑΤΙΣΤΙΚΑ','Από το ημερολόγιο υπηρεσίας'],laws:['ΝΟΜΟΘΕΤΗΜΑΤΑ','Νομοθεσία και υπηρεσιακό πλαίσιο'],guide:['ΟΔΗΓΟΣ ΕΦΑΡΜΟΓΗΣ','Βήμα-βήμα χρήση της εφαρμογής'],profile:['ΠΡΟΦΙΛ','Τα στοιχεία μου'],settings:['ΡΥΘΜΙΣΕΙΣ','Προσαρμογή εφαρμογής']};
 function closeSidebar(){document.body.classList.remove('menu-open');const t=document.getElementById('menuToggle');if(t)t.setAttribute('aria-expanded','false')}
 function show(page){document.querySelectorAll('.page').forEach(x=>x.classList.add('hide'));document.getElementById(page).classList.remove('hide');document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.getElementById('pageTitle').textContent='ΥΕΦΚΚ';document.getElementById('pageSub').textContent='Με ευθύνη. Με συνέπεια. Με αποστολή.';location.hash=page;closeSidebar()}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.page)));
@@ -1813,7 +1832,7 @@ function salaryPayrollCalc(grossMain, children, age, insurance, fiveCount, night
   const extrasBaseDed=fiveDed+nightDed;
   const fiveTax=Math.max(0,fiveGross-fiveDed)*0.20, nightTax=Math.max(0,nightGross-nightDed)*0.20;
   const extrasDed=extrasBaseDed+fiveTax+nightTax;
-  const poyef=4;
+  const poyef=(localStorage.getItem("yefkk_poyefMember")!=="no")?4:0;
   const fiveYearRecognition = recognitionFive==='yes' ? 39.87 : 0;
   const totalGross=g+fiveGross+nightGross;
   const totalDed=mainContrib+tax+poyef+extrasDed+fiveYearRecognition;
@@ -1889,6 +1908,7 @@ function refreshHomeFromSources(){
 }
 
 function renderSalary(){
+  const pm=document.getElementById('poyefMember');if(pm)pm.value=localStorage.getItem('yefkk_poyefMember')==='no'?'no':'yes';
   const y=Number(document.getElementById('years').value)||0;
   const priorMonths=Math.max(0,Math.floor(Number(document.getElementById('salaryPreServiceMonths')?.value)||0));
   const family=localStorage.getItem('yefkk_profFamily')||'single';
@@ -1964,6 +1984,7 @@ function renderSalary(){
       </div>
       <div class="section card" style="border-color:rgba(56,217,255,.25);padding:14px">
         <h3 style="margin-top:0">Ασφαλιστικό καθεστώς</h3>
+        <div class="notice" style="margin:10px 0"><label for="poyefMember">Μέλος ΠΟΥΕΦ (συνδρομή 4 € / μήνα)</label><select id="poyefMember" onchange="localStorage.setItem('yefkk_poyefMember',this.value);renderSalary()"><option value="yes" ${localStorage.getItem("yefkk_poyefMember")!=="no"?"selected":""}>ΝΑΙ — 4,00 €</option><option value="no" ${localStorage.getItem("yefkk_poyefMember")==="no"?"selected":""}>ΟΧΙ — 0,00 €</option></select></div>
         <div class="grid2" style="margin-bottom:14px">
           <button type="button" class="action" data-insurance-choice="pre93" aria-pressed="${insurance==='pre93'?'true':'false'}" style="min-height:52px;border-radius:14px;${insurance==='pre93'?'background:#174c31;color:#fff;border-color:#174c31;':'background:transparent;'}">Πριν το 1993</button>
           <button type="button" class="action" data-insurance-choice="post93" aria-pressed="${insurance==='post93'?'true':'false'}" style="min-height:52px;border-radius:14px;${insurance==='post93'?'background:#174c31;color:#fff;border-color:#174c31;':'background:transparent;'}">Μετά το 1993</button>
@@ -1980,10 +2001,13 @@ function renderSalary(){
               <tr style="border-bottom:1px solid #303030"><td style="padding:13px 8px">Υγειονομική 2,05%</td><td style="text-align:right">${f(row.basic*0.0205)}</td><td style="text-align:right">${f(Math.max(0,a.total-row.basic)*0.0205)}</td></tr>
               <tr style="border-bottom:1px solid #303030"><td style="padding:13px 8px">ΕΦΚΑ σύνταξη 6,67%</td><td style="text-align:right">${f(row.basic*0.0667)}</td><td style="text-align:right">${insurance==='pre93'?'—':f(Math.max(0,a.total-row.basic)*0.0667)}</td></tr>
               <tr style="border-bottom:1px solid #303030"><td style="padding:13px 8px">Ανεργία 2%</td><td style="text-align:right">${f(row.basic*0.02)}</td><td style="text-align:right">${f(Math.max(0,a.total-row.basic)*0.02)}</td></tr>
+              <tr style="border-bottom:1px solid #303030"><td style="padding:13px 8px">ΠΟΥΕΦ (εφόσον μέλος)</td><td style="text-align:right">${f(pay.poyef)}</td><td style="text-align:right">—</td></tr>
+              <tr style="border-bottom:1px solid #303030"><td style="padding:13px 8px">Φόρος μισθωτών (εκτίμηση)</td><td style="text-align:right">${f(pay.tax)}</td><td style="text-align:right">—</td></tr>
               <tr style="background:#103421;border-top:4px solid #1d5635;font-weight:700"><td style="padding:14px 8px">Σύνολο</td><td style="text-align:right">${f(row.basic*(0.04+0.045+0.03+0.0205+0.0667+0.02))}</td><td style="text-align:right">${f(insurance==='pre93'?((a.special+a.childAllowance)*0.01+Math.max(0,a.total-row.basic)*(0.0205+0.02)):Math.max(0,a.total-row.basic)*(0.04+0.045+0.03+0.0205+0.0667+0.02))}</td></tr>
             </tbody>
           </table>
         </div>
+        <div class="notice" style="margin-top:10px"><b>Σημαντικό:</b> Οι εισφορές και η φορολογία αποτελούν υπολογιστικό υπόδειγμα. Τα ποσοστά, οι ασφαλιστέες βάσεις και η ειδική φορολόγηση πρόσθετων αποδοχών απαιτούν διασταύρωση με ισχύουσες επίσημες διατάξεις πριν χρησιμοποιηθούν ως επίσημη εκκαθάριση. Η ΠΟΥΕΦ είναι συνδρομή μέλους, όχι γενική υποχρεωτική ασφαλιστική εισφορά.</div>
         <div class="notice" style="margin-top:10px">Τα ποσά παρουσιάζονται χωριστά για τον βασικό μισθό και τα επιδόματα, βάσει του επιλεγμένου παραδείγματος. Επιβεβαίωσε τις βάσεις και τα ποσοστά με το επίσημο εκκαθαριστικό μισθοδοσίας.</div>
         <div style="margin-top:12px;padding:14px;border:1px solid rgba(255,150,40,.45);border-radius:12px;background:rgba(255,140,20,.08);display:flex;justify-content:space-between;gap:12px;align-items:center">
           <span>Κράτηση αναγνώρισης μάχιμης 5ετίας</span>
@@ -2007,9 +2031,9 @@ function renderSalary(){
       </div>
       <div class="notice" style="margin-top:10px">Χωρίς υπερωρίες • χωρίς παραμεθόριο • χωρίς προσωπική διαφορά. Τα πρόσθετα υπολογίζονται ξεχωριστά και δεν ξαναμπαίνουν στον κύριο φόρο.</div>
     </div>`;}
-const shiftMap={P:'Σημ.',A:'Α',R:'Ρ',N:'Ν',AD:'Α/Δ',PP:'Π',PN:'Π/Ν'};
+const shiftMap={P:'Σημ.',A:'Α',R:'Ρ',N:'Ν',AD:'ΑΔ',PP:'Π',PN:'Π/Ν'};
 const shiftStoragePrefix='yefkk_calendar_';
-let activeShift='P';
+let activeShift='PP';
 let calCursor=null;
 function monthKey(){return calCursor || '2026-09';}
 function storageKey(y,m,d){return `${shiftStoragePrefix}${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
@@ -2331,6 +2355,32 @@ function renderScenarioCard(label,years,eligible){
     <div style="text-align:right"><b>${rate===null?'—':rate.toFixed(2)+'%'}</b><div class="muted">${rate===null?'': 'αναπλήρωση'}</div></div>
   </div>`;
 }
+
+
+function exportYefkkBackup(){
+ const data={format:'Y.E.F.K.K-backup',version:1,exportedAt:new Date().toISOString(),items:{}};
+ for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('yefkk_'))data.items[k]=localStorage.getItem(k);}
+ const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='Y.E.F.K.K-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+async function importYefkkBackup(input){
+ const file=input.files?.[0];if(!file)return;
+ try{if(file.size>2e6)throw Error('Το αρχείο είναι υπερβολικά μεγάλο.');const data=JSON.parse(await file.text());if(data.format!=='Y.E.F.K.K-backup'||data.version!==1||!data.items||typeof data.items!=='object'||Array.isArray(data.items))throw Error('Μη έγκυρο αντίγραφο ασφαλείας.');
+ const entries=Object.entries(data.items);if(entries.length>20000||entries.some(([k,v])=>!k.startsWith('yefkk_')||typeof v!=='string'))throw Error('Μη έγκυρα δεδομένα.');
+ if(!confirm('Θέλεις να επαναφέρεις '+entries.length+' αποθηκευμένες εγγραφές; Οι αντίστοιχες τρέχουσες θα αντικατασταθούν.'))return;
+ for(const [k,v] of entries)localStorage.setItem(k,v);alert('Η επαναφορά ολοκληρώθηκε. Η εφαρμογή θα ανανεωθεί.');location.reload();
+ }catch(e){alert('Αποτυχία επαναφοράς: '+e.message);}finally{input.value='';}
+}
+
+function updateManualPension(){
+ const y=Number(document.getElementById('scenarioYears')?.value),combat=Number(document.getElementById('scenarioCombat')?.value),w=Number(document.getElementById('scenarioWage')?.value),out=document.getElementById('manualPensionResult');
+ if(!out)return;
+ if(!Number.isFinite(y)||y<0||y>50||!Number.isFinite(w)||w<=0){out.textContent='Συμπλήρωσε έτη 0–50 και θετικό μέσο συντάξιμο μισθό.';return;}
+ const total=y+combat,rate=pensionRate(total);
+ const national=446.87; // ενδεικτική παράμετρος 2026 — επαλήθευση με e-ΕΦΚΑ πριν από επίσημη χρήση
+ const euro=v=>v.toLocaleString('el-GR',{style:'currency',currency:'EUR'});
+ out.innerHTML=`<b>${y} + ${combat} = ${total} συντάξιμα έτη (σενάριο)</b><div>Ποσοστό αναπλήρωσης: <b>${rate===null?'—':rate.toFixed(2)+'%'}</b></div><div>Ανταποδοτική: <b>${rate===null?'—':euro(w*rate/100)}</b></div><div>Εθνική (ενδεικτική): <b>${euro(national)}</b></div><div>Εκτιμώμενη μεικτή κύρια: <b>${rate===null?'—':euro(national+w*rate/100)}</b></div>`;
+}
+
 function calculatePension(){
   const yefkk=Number(document.getElementById('pYefkk').value)||0;
   const otherDays=Number(document.getElementById('pOther').value)||0;
@@ -2497,6 +2547,8 @@ if(recPension){
 syncPensionProfile();
 calculatePension();
 
+
+document.addEventListener('DOMContentLoaded',()=>{updateManualPension();const pm=document.getElementById('poyefMember');if(pm)pm.value=localStorage.getItem('yefkk_poyefMember')==='no'?'no':'yes';});
 </script>
 
 <script>
@@ -2560,7 +2612,7 @@ function lawJump(id){ const e=document.getElementById(id); if(e){ e.scrollIntoVi
 
 
 <footer class="yefkkSignature">
-  <div class="signatureName">Κερμανίδης Μερκούριος</div>
+  <div class="signatureName">GEORGE SKLAP</div>
   <div class="signatureSub">ΕΞΩΤΕΡΙΚΗ ΦΡΟΥΡΗΣΗ • ΥΠΗΡΕΣΙΑΚΟΣ ΟΔΗΓΟΣ ΥΕΦΚΚ • BY KERMANIDIS</div>
 </footer>
 
@@ -2848,7 +2900,7 @@ document.getElementById('calcSalary')?.addEventListener('click',()=>{setTimeout(
     if(!document.getElementById(pageId)) pageId='home';
     document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hide',p.id!==pageId));
     document.querySelectorAll('.nav button[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===pageId));
-    const titles={home:['ΥΕΦΚΚ','V4.71 • Ενιαία εφαρμογή ΥΕΦΚΚ'],salary:['Μισθολόγιο','ΥΕΦΚΚ • Μισθολόγιο'],pension:['Συνταξιοδοτικός Οδηγός','ΥΕΦΚΚ • Σύνταξη'],calendar:['Ημερολόγιο','ΥΕΦΚΚ • Υπηρεσία'],stats:['Στατιστικά','ΥΕΦΚΚ • Στατιστικά'],laws:['Νομοθετήματα','ΥΕΦΚΚ • Νομοθεσία'],guide:['Οδηγός ΥΕΦΚΚ','ΥΕΦΚΚ • Οδηγός'],profile:['Προφίλ','ΥΕΦΚΚ • Προσωπικά στοιχεία'],settings:['Ρυθμίσεις','ΥΕΦΚΚ • Ρυθμίσεις']};
+    const titles={home:['ΥΕΦΚΚ','Y.E.F.K.K • Έκδοση 5.0'],salary:['Μισθολόγιο','ΥΕΦΚΚ • Μισθολόγιο'],pension:['Συνταξιοδοτικός Οδηγός','ΥΕΦΚΚ • Σύνταξη'],calendar:['Ημερολόγιο','ΥΕΦΚΚ • Υπηρεσία'],stats:['Στατιστικά','ΥΕΦΚΚ • Στατιστικά'],laws:['Νομοθετήματα','ΥΕΦΚΚ • Νομοθεσία'],guide:['Οδηγός ΥΕΦΚΚ','ΥΕΦΚΚ • Οδηγός'],profile:['Προφίλ','ΥΕΦΚΚ • Προσωπικά στοιχεία'],settings:['Ρυθμίσεις','ΥΕΦΚΚ • Ρυθμίσεις']};
     const h=document.getElementById('pageTitle'),sub=document.getElementById('pageSub');if(h)h.textContent='ΥΕΦΚΚ';if(sub)sub.textContent='Με ευθύνη. Με συνέπεια. Με αποστολή.';
     document.body.classList.remove('menu-open');document.getElementById('menuToggle')?.setAttribute('aria-expanded','false');try{localStorage.setItem('yefkk_activePage',pageId)}catch(e){}window.scrollTo({top:0,behavior:'smooth'});
   }
