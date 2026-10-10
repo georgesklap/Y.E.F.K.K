@@ -1,25 +1,16 @@
 {
-"name": "ΥΕΦΚΚ — Υπηρεσιακός Οδηγός",
-"short_name": "ΥΕΦΚΚ",
+  "name": "ΥΕΦΚΚ — Υπηρεσιακός Οδηγός",
+  "short_name": "ΥΕΦΚΚ",
   "description": "Υ.Ε.Φ.Κ.Κ — μισθοδοσία, συνταξιοδοτικά σενάρια και ημερολόγιο",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#07111f",
+  "background_color": "#000000",
   "theme_color": "#07111f",
   "icons": [
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    }
+    {"src":"icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"icons/icon-transparent.png","sizes":"512x512","type":"image/png","purpose":"any"}
   ]
 }
