@@ -690,7 +690,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
       <div class="formgrid">
         <div>
           <label>Έτη ΥΕΦΚΚ</label>
-          <input id="pYefkk" type="number" min="0" step="0.01" value="0" readonly><small class="muted">Αυτόματα από την ημερομηνία διορισμού του Προφίλ.</small>
+          <input id="pYefkk" type="number" min="0" max="50" step="0.01" value="0"><small class="muted">Συμπληρώνεται αυτόματα από την ημερομηνία διορισμού, αλλά μπορείς να το αλλάξεις χειροκίνητα για σύγκριση σεναρίων (π.χ. 40).</small>
         </div>
         <div>
           <label>Ημέρες ασφάλισης σε άλλα ταμεία (ΙΚΑ κ.ά.)</label>
@@ -714,7 +714,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
         <div>
           <label>Μέσες συντάξιμες αποδοχές (€) — έλεγχος τεκμηρίωσης</label>
           <div class="notice" style="margin:8px 0;border:1px solid #d59b3e">⚠️ Τα ιστορικά ποσά 2002–2019 δεν έχουν πιστοποιηθεί. Η προεπιλογή δεν παρουσιάζει πλασματικό μέσο ως πραγματικό.</div>
-          <label style="display:flex;align-items:center;gap:8px"><input id="legacyEstimateToggle" type="checkbox" checked onchange="calculatePension();updateManualPension()" style="width:auto"> Αυτόματη ΜΙΚΤΗ εκτίμηση: βάσεις εκκαθαριστικών 2017–2019 όπου υπάρχουν · αλλού οι αρχικοί πίνακες Κερμανίδη</label>
+          <label style="display:flex;align-items:center;gap:8px"><input id="legacyEstimateToggle" type="checkbox" checked onchange="calculatePension();updateManualPension()" style="width:auto"> ΔΟΚΙΜΑΣΤΙΚΗ τρίτη βάση: εκκαθαριστικά 2017–2019 · υπόλοιπα με βαθμονόμηση (όχι πιστοποιημένα)</label>
           <input id="avgWage" type="number" min="0" step="0.01" value="0" readonly>
           <small id="avgWageInfo" class="muted">Ενδεικτικός μέσος από μισθολογικούς πίνακες από 01/01/2002, όχι από πραγματικές ασφαλιστέες αποδοχές.</small>
         </div>
@@ -762,9 +762,22 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
       <div class="card yefkk-auto-extras" style="margin:10px 0">
         <h4>🧮 Αυτόματη εκτίμηση επικουρικής &amp; ΜΤΠΥ</h4>
         <p class="muted">Υπολογίζεται από την ημερομηνία διορισμού, τα έτη του σεναρίου και την εκτίμηση αποδοχών. Δεν χρειάζεται να συμπληρώσεις ασφαλιστικούς συντελεστές.</p>
-        <div id="auxPensionResult" class="notice" aria-live="polite">Υπολογισμός με την επιλογή σεναρίου.</div>
+        <details style="margin:10px 0;padding:12px;border:1px solid #3a85b5;border-radius:10px">
+ <summary><b>⚙️ Τεκμηρίωση επικουρικής &amp; ΜΤΠΥ — προαιρετικές παράμετροι</b></summary>
+ <p class="muted">ΕΚΚΡΕΜΕΙ αντιπαραβολή των κρατήσεων στα σαρωμένα εκκαθαριστικά. Οι εισφορές επικουρικής και ΜΤΠΥ είναι διαφορετικές από την κύρια σύνταξη. Οι παρακάτω τιμές είναι <b>υποθέσεις</b> έως ότου διασταυρωθούν με τις αντίστοιχες βεβαιώσεις. Κενό = υπολογισμός από μοντέλο, όχι πιστοποίηση.</p>
+ <div class="grid">
+  <div><label>Μέση βάση επικουρικής έως 2014 (€)</label><input id="auxPreWage" type="number" min="0" step="0.01" placeholder="Αυτόματη προσέγγιση" oninput="updateManualPension()"></div>
+  <div><label>Πραγματικό σύνολο εισφορών επικουρικής από 2015 (€) — αν υπάρχει βεβαίωση</label><input id="auxActualCapital" type="number" min="0" step="0.01" placeholder="Εκτίμηση 6% × μηνιαίες βάσεις" oninput="updateManualPension()"></div>
+  <div><label>Ράντα επικουρικής (έτη) — προσωρινή</label><input id="auxAnnuity" type="number" min="10" max="30" step="0.1" placeholder="Ενδεικτική ανά ηλικία" oninput="updateManualPension()"></div>
+  <div><label>Βασικός μισθός ΜΤΠΥ κατά αποχώρηση (€)</label><input id="mtpyBasicAtExit" type="number" min="0" step="0.01" placeholder="Πρόβλεψη μισθολογικού πίνακα" oninput="updateManualPension()"></div>
+  <div><label>Λοιπές αποδοχές με κράτηση ΜΤΠΥ 4,5% (€)</label><input id="mtpyOtherInsured" type="number" min="0" step="0.01" placeholder="0 έως τεκμηρίωσης" oninput="updateManualPension()"></div>
+  <div><label>Ετήσιος συντελεστής ΜΤΠΥ (%)</label><input id="mtpyAnnualRate" type="number" min="0" max="1" step="0.001" value="0.215" oninput="updateManualPension()"></div>
+  <div><label>Έτη πραγματικής συμμετοχής ΜΤΠΥ (κενό = έτη υπηρεσίας)</label><input id="mtpyInsuredYears" type="number" min="0" max="55" step="0.1" placeholder="Αυτόματα" oninput="updateManualPension()"></div>
+ </div><p class="muted">Επικουρική: άρθρο 96 Ν.4387/2016 (0,45% ανά έτος έως 2014, NDC από 2015). ΜΤΠΥ: άρθρο 48 Ν.4387/2016 (Μα+Μβ, συντελεστής 0,215% για το 2016, μεταβλητός μεταγενέστερα). Η πραγματική ράντα, η συσσώρευση gk, η βάση επιδομάτων και ο συντελεστής του έτους εξόδου απαιτούν επίσημη τεκμηρίωση.</p>
+ </details>
+ <div id="auxPensionResult" class="notice" aria-live="polite">Υπολογισμός με την επιλογή σεναρίου.</div>
         <div id="mtpyPensionResult" class="notice" aria-live="polite">Υπολογισμός με την επιλογή σεναρίου.</div>
-        <small class="muted">Πρόκειται για ενδεικτικά ποσά, όχι βεβαίωση ΕΦΚΑ/ΜΤΠΥ. Η ράντα και ο μελλοντικός συντελεστής ΜΤΠΥ προσεγγίζονται και μπορεί να διαφέρουν.</small>
+        <small class="muted">ΕΝΔΕΙΚΤΙΚΟ: χωρίς ατομικό ιστορικό επικουρικών εισφορών, επίσημη ράντα και συντελεστή ΜΤΠΥ έτους εξόδου δεν υπάρχει αξιόπιστη ακρίβεια ευρώ. Η μηχανή εμφανίζει τις παραδοχές και επιτρέπει διορθώσεις.</small>
       </div>
       <div id="manualPensionResult" class="notice" aria-live="polite"></div>
       <div class="tableWrap"><table class="table" aria-label="Αναλυτικά αποτελέσματα χειροκίνητου σεναρίου"><thead><tr><th>ΣΤΟΙΧΕΙΟ</th><th>ΧΕΙΡΟΚΙΝΗΤΟ ΣΕΝΑΡΙΟ</th></tr></thead><tbody id="manualPensionTable"></tbody></table></div>
@@ -778,7 +791,7 @@ html[data-theme="light"] .sideBrand .logo small{color:#ffd2a3!important;}
     </div>
 
     <div class="section card" style="background:#081321">
-      <h3>3. Αναλυτικά αποτελέσματα</h3>
+      <h3>3. Αναλυτικά αποτελέσματα — ΚΛΕΙΔΩΜΕΝΟΣ ΚΕΡΜΑΝΙΔΗΣ</h3><p class="muted">Baseline πρωτότυπου: 10/10/2026. Οι πίνακες oldPayData/newPayData και η αρχική λογική total παραμένουν ανεξάρτητοι από τις δοκιμές ΥΕΦΚΚ.</p>
       <div class="tableWrap">
         <table class="table" id="pensionTable">
           <thead>
@@ -1817,7 +1830,7 @@ function monthsForAverage(start,end){
 }
 function yearsBetweenDates(a,b){return Math.max(0,(b-a)/(365.2425*24*3600*1000));}
 // ΔΟΜΗΜΕΝΟ ΜΗΤΡΩΟ: πραγματική είσοδος στον υπολογιστή, όχι μόνο αρχείο ανάγνωσης.
-// Null προσωπική βάση => ρητή επιστροφή στους πίνακες Κερμανίδη.
+// Null προσωπική βάση: δεν υπάρχει πιστοποιημένη προσωπική τιμή (ιστορική εκτίμηση μόνο).
 const yefkkHistoricalDatabase = Object.freeze({"2002-01":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-02":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-03":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-04":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-05":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-06":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-07":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-08":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-09":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-10":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-11":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2002-12":{"source":"historical_registry","legal_reference":"Ν.3016/2002 άρθρο 12","reference_amount":"383","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-01":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-02":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-03":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-04":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-05":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-06":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-07":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-08":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-09":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-10":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-11":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2003-12":{"source":"historical_registry","legal_reference":"Εγκύκλιος μισθολογίου 2003 - πίνακας ΜΚ36","reference_amount":"398.37","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-01":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-02":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-03":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-04":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-05":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-06":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-07":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-08":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-09":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-10":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-11":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2004-12":{"source":"historical_registry","legal_reference":"Ν.3205/2003 άρθρο 7","reference_amount":"590","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-01":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-02":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-03":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-04":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-05":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-06":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-07":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-08":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-09":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-10":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-11":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2005-12":{"source":"historical_registry","legal_reference":"Ν.3336/2005 άρθρο 2","reference_amount":"611","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-01":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-02":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-03":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-04":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-05":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-06":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-07":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-08":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-09":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-10":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-11":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2006-12":{"source":"historical_registry","legal_reference":"Ν.3453/2006 άρθρο 11 - απαιτεί τελική επαλήθευση","reference_amount":"629","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-01":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-02":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-03":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-04":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-05":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-06":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-07":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-08":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-09":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-10":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-11":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2007-12":{"source":"historical_registry","legal_reference":"Ν.3554/2007 άρθρο 1 - απαιτεί τελική επαλήθευση ποσού","reference_amount":"651","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-01":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-02":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-03":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-04":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-05":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-06":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-07":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-08":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-09":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-10":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-11":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2008-12":{"source":"historical_registry","legal_reference":"Ν.3670/2008 άρθρο 6","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-01":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-02":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-03":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-04":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-05":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-06":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-07":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-08":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-09":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-10":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-11":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2009-12":{"source":"historical_registry","legal_reference":"Ν.3758/2009 άρθρο 17","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-01":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-02":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-03":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-04":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-05":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-06":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-07":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-08":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-09":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-10":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-11":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2010-12":{"source":"historical_registry","legal_reference":"Ν.3833/2010 άρθρα 1–3 (και μεταγενέστερες ρυθμίσεις προς έλεγχο)","reference_amount":"","personal_pensionable":null,"status":"ΜΗ ΕΠΙΒΕΒΑΙΩΜΕΝΟ"},"2012-01":{"source":"payslip_registry","gross":1322.26,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2012-12":{"source":"payslip_registry","gross":1410.17,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2013-01":{"source":"payslip_registry","gross":1596.43,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2013-12":{"source":"payslip_registry","gross":1494.26,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2014-01":{"source":"payslip_registry","gross":1494.26,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2014-12":{"source":"payslip_registry","gross":1494.26,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2015-01":{"source":"payslip_registry","gross":1494.26,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2015-12":{"source":"payslip_registry","gross":1516.26,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2016-01":{"source":"payslip_registry","gross":1516.26,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2016-12":{"source":"payslip_registry","gross":1523.26,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2017-01":{"source":"payslip_registry","gross":1530.26,"personal_pensionable":null,"status":"δεν έχει προσδιοριστεί ασφαλής βάση","note":"διάκριση εισφορών και νομική βάση προ-2017"},"2017-12":{"source":"payslip_registry","gross":1530.26,"personal_pensionable":1344.0,"status":"αριθμητικά συμβατή, όχι πιστοποιημένη","note":"επιβεβαίωση διορθωτικών και συνταξιμότητας προσωπικής διαφοράς"},"2018-01":{"source":"payslip_registry","gross":1537.26,"personal_pensionable":1351.0,"status":"αριθμητικά συμβατή, όχι πιστοποιημένη","note":"επιβεβαίωση διορθωτικών και συνταξιμότητας προσωπικής διαφοράς"},"2018-12":{"source":"payslip_registry","gross":1537.26,"personal_pensionable":1351.0,"status":"αριθμητικά συμβατή, όχι πιστοποιημένη","note":"επιβεβαίωση διορθωτικών και συνταξιμότητας προσωπικής διαφοράς"},"2019-01":{"source":"payslip_registry","gross":1544.26,"personal_pensionable":1358.0,"status":"αριθμητικά συμβατή, όχι πιστοποιημένη","note":"επιβεβαίωση διορθωτικών και συνταξιμότητας προσωπικής διαφοράς"},"2019-12":{"source":"payslip_registry","gross":1544.26,"personal_pensionable":1358.0,"status":"αριθμητικά συμβατή, όχι πιστοποιημένη","note":"επιβεβαίωση διορθωτικών και συνταξιμότητας προσωπικής διαφοράς"}});
 function yefkkVerifiedMonthlyBase(key){
  const row=yefkkHistoricalDatabase[key];
@@ -1825,41 +1838,120 @@ function yefkkVerifiedMonthlyBase(key){
 }
 // Οι πίνακες Κερμανίδη παραμένουν αμετάβλητοι για όλες τις μη επιβεβαιωμένες περιόδους.
 // Δείγματα ασφαλιστικής βάσης 6,67% από εκκαθαριστικά (όχι πιστοποιημένη ετήσια βάση ΕΦΚΑ).
-const verifiedPayslipBases = Object.freeze({});
-// Ιανουάριος και Δεκέμβριος συμφωνούν: ενδιάμεσοι μήνες ως τεκμηριωμένη
-// ΠΡΟΣΩΡΙΝΗ προέκταση (όχι ως πραγματικά εκκαθαριστικά).
-const annualPayslipAnchors = Object.freeze({2018:1351.00,2019:1358.00});
+// v8.4: Μηνιαίο μητρώο 2011-2026. Βάσεις κύριας σύνταξης, ΟΧΙ μεικτά.
+// Οι επισημάνσεις / πηγές διατηρούνται και στο CSV του ZIP.
+const auditedPensionableMonthlyBases = Object.freeze({"2011-03":1449.2,"2011-04":1449.2,"2011-05":1449.2,"2011-06":1449.2,"2011-07":1449.2,"2011-08":1449.2,"2011-09":1449.2,"2011-10":1449.2,"2011-11":1449.2,"2011-12":1449.2,"2012-01":1449.2,"2012-02":1449.2,"2012-03":1449.2,"2012-04":1449.2,"2012-05":1449.2,"2012-06":1449.2,"2012-07":1449.2,"2012-08":1449.2,"2012-09":1449.2,"2012-10":1449.2,"2012-11":1449.2,"2012-12":1449.2,"2013-01":1449.2,"2013-02":1449.2,"2013-03":1449.2,"2013-04":1449.2,"2013-05":1449.2,"2013-06":1449.2,"2013-07":1449.2,"2013-08":1449.2,"2013-09":1449.2,"2013-10":1449.2,"2013-11":1449.2,"2013-12":1449.2,"2014-01":1449.2,"2014-02":1449.2,"2014-03":1449.2,"2014-04":1449.2,"2014-05":1449.2,"2014-06":1449.2,"2014-07":1449.2,"2014-08":1449.2,"2014-09":1449.2,"2014-10":1449.2,"2014-11":1449.2,"2014-12":1449.2,"2015-01":1449.2,"2015-02":1449.2,"2015-03":1449.2,"2015-04":1449.2,"2015-05":1449.2,"2015-06":1449.2,"2015-07":1449.2,"2015-08":1449.2,"2015-09":1449.2,"2015-10":1449.2,"2015-11":1449.2,"2015-12":1449.2,"2016-01":1449.2,"2016-02":1449.2,"2016-03":1449.2,"2016-04":1449.2,"2016-05":1449.2,"2016-06":1449.2,"2016-07":1449.2,"2016-08":1449.2,"2016-09":1449.2,"2016-10":1449.2,"2016-11":1449.2,"2016-12":1449.2,"2017-01":1344,"2017-02":1344,"2017-03":1344,"2017-04":1344,"2017-05":1344,"2017-06":1344,"2017-07":1344,"2017-08":1344,"2017-09":1344,"2017-10":1344,"2017-11":1344,"2017-12":1344,"2018-01":1351,"2018-02":1351,"2018-03":1351,"2018-04":1351,"2018-05":1351,"2018-06":1351,"2018-07":1351,"2018-08":1351,"2018-09":1351,"2018-10":1351,"2018-11":1351,"2018-12":1351,"2019-01":1358,"2019-02":1358,"2019-03":1358,"2019-04":1358,"2019-05":1358,"2019-06":1358,"2019-07":1358,"2019-08":1358,"2019-09":1358,"2019-10":1358,"2019-11":1358,"2019-12":1358,"2020-01":1358,"2020-02":1358,"2020-03":1358,"2020-04":1358,"2020-05":1358,"2020-06":1358,"2020-07":1358,"2020-08":1418,"2020-09":1418,"2020-10":1418,"2020-11":1418,"2020-12":1418,"2021-01":1418,"2021-02":1418,"2021-03":1418,"2021-04":1418,"2021-05":1418,"2021-06":1418,"2021-07":1418,"2021-08":1418,"2021-09":1418,"2021-10":1418,"2021-11":1418,"2021-12":1418,"2022-01":1418,"2022-02":1418,"2022-03":1418,"2022-04":1418,"2022-05":1418,"2022-06":1418,"2022-07":1418,"2022-08":1418,"2022-09":1418,"2022-10":1418,"2022-11":1418,"2022-12":1418,"2023-01":1418,"2023-02":1418,"2023-03":1418,"2023-04":1418,"2023-05":1418,"2023-06":1418,"2023-07":1418,"2023-08":1418,"2023-09":1418,"2023-10":1418,"2023-11":1478,"2023-12":1478,"2024-01":1568,"2024-02":1568,"2024-03":1568,"2024-04":1568,"2024-05":1568,"2024-06":1568,"2024-07":1568,"2024-08":1568,"2024-09":1568,"2024-10":1568,"2024-11":1568,"2024-12":1568,"2025-01":1568,"2025-02":1568,"2025-03":1568,"2025-04":1568,"2025-05":1598,"2025-06":1598,"2025-07":1598,"2025-08":1598,"2025-09":1598,"2025-10":1598,"2025-11":1598,"2025-12":1598,"2026-01":1698,"2026-02":1698,"2026-03":1698,"2026-04":1698,"2026-05":1698,"2026-06":1738,"2026-07":1785.333333,"2026-08":1785.333333,"2026-09":1785.333333,"2026-10":1798});
 function payslipBaseForMonth(month){
-  const y=month.getFullYear(), m=month.getMonth()+1;
-  const key=y+'-'+String(m).padStart(2,'0');
-  const registered=yefkkVerifiedMonthlyBase(key);
-  if(registered!==null)return {amount:registered,kind:'sample'};
-  if(Object.prototype.hasOwnProperty.call(verifiedPayslipBases,key))return {amount:verifiedPayslipBases[key],kind:'sample'};
-  if(Object.prototype.hasOwnProperty.call(annualPayslipAnchors,y))return {amount:annualPayslipAnchors[y],kind:'interpolated'};
+  const key=month.getFullYear()+'-'+String(month.getMonth()+1).padStart(2,'0');
+  if(Object.prototype.hasOwnProperty.call(auditedPensionableMonthlyBases,key)){
+    return {amount:auditedPensionableMonthlyBases[key],kind:'sample'};
+  }
   return null;
 }
-function autoAverageFromSalaryTables(targetEnd=null){
+
+
+// v8.0: ΔΟΚΙΜΑΣΤΙΚΗ ανακατασκευή ΔΕ ενιαίου μισθολογίου 2002–2010.
+// ΟΧΙ προσωπικά εκκαθαριστικά, ΟΧΙ επίσημες πιστοποιημένες συντάξιμες αποδοχές.
+// Προσωρινή ιστορική προσέγγιση βασικού ΜΚ, χωρίς μη τεκμηριωμένη ένταξη 140,80€.
+// Δεν προστίθενται οικογενειακό, κίνητρο, διανεμητικό, επικίνδυνο/ανθυγιεινό.
+// Ο χρόνος ΜΚ υπολογίζεται από την πραγματική ημερομηνία πρόσληψης (χωρίς άγνωστη προϋπηρεσία).
+function yefkkDEHistoricalEstimate(month,appointment){
+  const y=month.getFullYear();
+  if(y<2002||y>2010)return null;
+  const yrs=yearsBetweenDates(appointment,month);
+  // ΜΚ 2004+: 18 (0-1), 17 (1-3), 16 (3-5), κ.ο.κ.
+  const steps=yrs<1?0:1+Math.floor((yrs-1)/2);
+  let basic=0,mk=0,ref='';
+  if(y<=2003){
+    // Ν.2470/1997 ΔΕ: εισαγωγικό ΜΚ 29, προσεγγιστική εξέλιξη ανά διετία.
+    // Ν.3016/2002 383€ στο ΜΚ36 και 2003 398,37€ στο ΜΚ36.
+    mk=Math.max(12,29-Math.floor(yrs/2));
+    const origin=y===2002?383:398.37;
+    const increment=y===2002?10.34:10.76;
+    basic=origin+(36-mk)*increment;
+    ref='Ν.2470/1997 άρθ.7, Ν.3016/2002 άρθ.12 · ΕΚΤΙΜΗΣΗ ΜΚ';
+  }else{
+    mk=Math.max(1,18-steps);
+    const origin=({2004:590,2005:611,2006:629,2007:651,2008:697,2009:711,2010:711})[y];
+    // 2008: 1/10/2008 711€ (μετά τις αναπροσαρμογές). Το 2009/10 711€ ως υπόθεση.
+    const effectiveOrigin=y===2008&&month.getMonth()>=9?711:origin;
+    // Από 2008 ο νόμος αναπροσαρμόζει βασικούς και ενσωματώνει τμήμα κινήτρου.
+    const ue=effectiveOrigin+Math.round(effectiveOrigin*0.0424)*steps;
+    basic=Math.round(ue*1.17);
+    ref='Ν.3205/2003 άρθ.3,5,7 · Ν.3336/2005 · Ν.3453/2006 · Ν.3554/2007 · Ν.3670/2008';
+  }
+  // Δεν προστίθενται μη αποδεδειγμένες ασφαλιστέες παροχές.
+  const pensionExtra=0; // Μη τεκμηριωμένη πρόσθεση 140,80€: αποκλείεται έως πρωτογενή επαλήθευση.
+  return {amount:Math.round((basic+pensionExtra)*100)/100,basic,mk,pensionExtra,kind:'estimated-DE-2002-2010',reference:ref};
+}
+
+// v7.9: τρίτη, ανεξάρτητη δοκιμή αγκυρωμένη σε πραγματικές βάσεις 2017–2019.
+// Δεν ισχυρίζεται ότι ανακατασκευάζει ιστορικές βάσεις ή επίσημο ΔΤΚ.
+// ΚΛΕΙΔΩΜΕΝΟΣ ΣΥΓΚΡΙΤΗΣ ΚΕΡΜΑΝΙΔΗ (baseline 10/10/2026)
+// Αυτή η συνάρτηση είναι σκόπιμα ανεξάρτητη από το πειραματικό μοντέλο ΥΕΦΚΚ.
+// Χρησιμοποιεί αυτούσιους τους oldPayData/newPayData του πρωτότυπου odigos-yefkk-main
+// και την αρχική λογική total ανά μήνα. Δεν πρέπει να τροποποιείται σε επόμενες δοκιμές.
+function kermanidisLockedAverage(){
   const appointmentValue=localStorage.getItem('yefkk_profAppointment');
   if(!appointmentValue) return {avg:0,months:0,oldMonths:0,newMonths:0,start:null,end:null,family:salaryFamilyKey()};
   const appointment=new Date(appointmentValue+'T00:00:00');
   if(Number.isNaN(appointment.getTime())) return {avg:0,months:0,oldMonths:0,newMonths:0,start:null,end:null,family:salaryFamilyKey()};
-  const today=targetEnd instanceof Date ? targetEnd : new Date();
+  const today=new Date('2026-10-10T12:00:00');
   const start=new Date(Math.max(new Date('2002-01-01T00:00:00').getTime(),appointment.getTime()));
   if(today<start) return {avg:0,months:0,oldMonths:0,newMonths:0,start,end:today,family:salaryFamilyKey()};
   const family=salaryFamilyKey();
   const months=monthsForAverage(start,today);
-  let sum=0,count=0,oldMonths=0,newMonths=0,payslipMonths=0,estimatedMonths=0,interpolatedMonths=0;
+  let sum=0,count=0,oldMonths=0,newMonths=0;
   for(const month of months){
     const serviceYears=yearsBetweenDates(appointment,month);
     const source=month<pensionSalaryProposalDate?'old':'new';
     const scale=salaryScaleForAverage(serviceYears,family,source==='old'?oldPayData:newPayData);
     const total=Number(scale.total)||0;
-    const observed=payslipBaseForMonth(month);
-    sum+=(observed!==null?observed.amount:total); count++;
-    if(observed!==null){if(observed.kind==='sample')payslipMonths++;else interpolatedMonths++;}else estimatedMonths++;
+    sum+=total; count++;
     if(source==='old') oldMonths++; else newMonths++;
   }
-  return {avg:count?sum/count:0,months:count,oldMonths,newMonths,payslipMonths,interpolatedMonths,estimatedMonths,start,end:today,family};
+  return {avg:count?sum/count:0,months:count,oldMonths,newMonths,start,end:today,family,locked:true};
+}
+
+function autoAverageFromSalaryTables(targetEnd=null){
+  const appointmentValue=localStorage.getItem('yefkk_profAppointment');
+  if(!appointmentValue)return {avg:0,months:0,oldMonths:0,newMonths:0,payslipMonths:0,interpolatedMonths:0,estimatedMonths:0,start:null,end:null,family:salaryFamilyKey()};
+  const appointment=new Date(appointmentValue+'T00:00:00');
+  if(Number.isNaN(appointment.getTime()))return {avg:0,months:0,oldMonths:0,newMonths:0,payslipMonths:0,interpolatedMonths:0,estimatedMonths:0,start:null,end:null,family:salaryFamilyKey()};
+  const today=targetEnd instanceof Date?targetEnd:new Date();
+  const start=new Date(Math.max(new Date('2002-01-01T00:00:00').getTime(),appointment.getTime()));
+  if(today<start)return {avg:0,months:0,oldMonths:0,newMonths:0,payslipMonths:0,interpolatedMonths:0,estimatedMonths:0,start,end:today,family:salaryFamilyKey()};
+  const family=salaryFamilyKey(),months=monthsForAverage(start,today);
+  // Μόνο ο προσωπικός συνταξιοδοτικός υπολογισμός: νέο ειδικό από 01/01/2027.
+  // Ο κλειδωμένος συγκριτής Κερμανίδη δεν μεταβάλλεται.
+  const ownSpecialEffectiveDate=new Date('2027-01-01T00:00:00');
+  // Η αναλογία των επαληθευμένων βάσεων προς τον πίνακα προσεγγίζεται
+  // αποκλειστικά στα έτη 2017–2019. Δεν αποτελεί επίσημο ιστορικό συντελεστή.
+  let ratioSum=0,ratioCount=0;
+  for(const m of monthsForAverage(new Date('2017-01-01'),new Date('2019-12-01'))){
+    const obs=payslipBaseForMonth(m);if(!obs)continue;
+    const service=yearsBetweenDates(appointment,m);
+    const scale=salaryScaleForAverage(service,family,oldPayData);
+    const proxy=(Number(scale.basic)||0)+(Number(scale.dangerous)||0)+(Number(scale.childrenAllowance)||0);
+    if(proxy>0){ratioSum+=obs.amount/proxy;ratioCount++;}
+  }
+  const anchorRatio=ratioCount?ratioSum/ratioCount:1;
+  let sum=0,count=0,oldMonths=0,newMonths=0,payslipMonths=0,estimatedMonths=0,interpolatedMonths=0;
+  for(const month of months){
+    const serviceYears=yearsBetweenDates(appointment,month);
+    const source=month<ownSpecialEffectiveDate?'old':'new';
+    const scale=salaryScaleForAverage(serviceYears,family,source==='old'?oldPayData:newPayData);
+    const proxy=(Number(scale.basic)||0)+(Number(scale.dangerous)||0)+(Number(scale.childrenAllowance)||0);
+    const observed=payslipBaseForMonth(month);
+    // Στο μη επιβεβαιωμένο διάστημα δεν χρησιμοποιούμε ούτε total ούτε
+    // γυμνό proxy: μόνο proxy βαθμονομημένο σε πραγματικές συντάξιμες βάσεις.
+    const historical=yefkkDEHistoricalEstimate(month,appointment);
+    const base=observed!==null?observed.amount:(historical!==null?historical.amount:proxy*anchorRatio);
+    sum+=base;count++;
+    if(observed!==null){if(observed.kind==='sample')payslipMonths++;else interpolatedMonths++;}else estimatedMonths++;
+    if(source==='old')oldMonths++;else newMonths++;
+  }
+  return {avg:count?sum/count:0,months:count,oldMonths,newMonths,payslipMonths,interpolatedMonths,estimatedMonths,start,end:today,family,anchorRatio};
 }
 function getSalaryRow(years){
   years=Math.max(0,Number(years)||0);
@@ -2491,7 +2583,13 @@ function useAutoWageInManual(){
  updateManualPension();
 }
 function markScenarioWageManual(){scenarioWageIsManual=true;updateManualPension();}
-/* v6.9: κοινή αυτόματη εκτίμηση παροχών, με σαφείς παραδοχές. */
+/* v8.8 — αναλυτικό διμερές μοντέλο με διακριτές ασφαλιστικές βάσεις.
+   Η κύρια συντάξιμη βάση δεν ταυτίζεται αυτόματα με την επικουρική/ΜΤΠΥ.
+   Οι ελλείπουσες εισφορές/ράντες παραμένουν εμφανείς ως ΠΑΡΑΔΟΧΕΣ. */
+function optionalNonNegative(id){
+ const e=document.getElementById(id);if(!e||e.value.trim()==='')return null;
+ const n=Number(e.value);return Number.isFinite(n)&&n>=0?n:null;
+}
 function autoExtrasEstimate(yearsOverride=null,wageOverride=null){
  const appointed=document.getElementById('profAppointment')?.value||localStorage.getItem('yefkk_profAppointment')||'';
  const start=appointed?new Date(appointed+'T12:00:00'):null;
@@ -2499,35 +2597,58 @@ function autoExtrasEstimate(yearsOverride=null,wageOverride=null){
  const wage=wageOverride===null?Number(document.getElementById('scenarioWage')?.value):wageOverride;
  if(!start||isNaN(start.getTime())||!Number.isFinite(service)||service<0||service>55||!Number.isFinite(wage)||wage<=0)return null;
  const end=new Date(start.getTime());end.setFullYear(end.getFullYear()+Math.floor(service));end.setMonth(end.getMonth()+Math.round((service%1)*12));
- const yrsBefore2015=Math.max(0,Math.min(end.getTime(),new Date('2015-01-01T00:00:00').getTime())-start.getTime())/(365.2425*86400000);
- const pre=Math.min(service,yrsBefore2015);
+ const preEnd=new Date(Math.min(end.getTime(),new Date('2015-01-01T00:00:00').getTime()));
+ const pre=Math.max(0,(preEnd-start)/(365.2425*86400000));
  const post=Math.max(0,service-pre);
- // Proxy for the unverified 2002–2014 supplementary contribution wage.
- const oldWage=Math.max(0,wage*0.90);
+ // Αν δεν υπάρχουν επικουρικές βάσεις, χρησιμοποιείται ρητά proxy 90%.
+ const auxPreOverride=optionalNonNegative('auxPreWage');
+ const oldWage=auxPreOverride??wage*0.90;
  const auxA=oldWage*pre*0.0045;
- // Approximate NDC: 6% total contribution, 12 months, no unverified gk growth credited.
- const capital=post*wage*12*0.06;
+ // 2015+: συγκέντρωση εισφορών μήνα-μήνα, από διαθέσιμη κύρια βάση ΜΟΝΟ ως proxy.
+ // Ο συντελεστής 6% είναι το βασικό συνολικό ασφάλιστρο, όχι εξακριβωμένη προσωπική κράτηση.
+ const postMonths=monthsForAverage(new Date(Math.max(start.getTime(),new Date('2015-01-01').getTime())),end);
+ let modelCapital=0,observed=0,projected=0;
+ const family=salaryFamilyKey();
+ for(const month of postMonths){
+  const slip=payslipBaseForMonth(month);
+  let base;
+  if(slip){base=slip.amount;observed++;}
+  else{
+   const serviceYears=yearsBetweenDates(start,month);
+   const table=month<new Date('2027-01-01')?oldPayData:newPayData;
+   const scale=salaryScaleForAverage(serviceYears,family,table);
+   base=((Number(scale.basic)||0)+(Number(scale.dangerous)||0)+(Number(scale.childrenAllowance)||0));
+   projected++;
+  }
+  modelCapital+=base*0.06;
+ }
+ const actualCapital=optionalNonNegative('auxActualCapital');
+ const capital=actualCapital??modelCapital;
  const dob=document.getElementById('profDob')?.value;
  const birth=dob?new Date(dob+'T12:00:00'):null;
  const age=birth&&!isNaN(birth.getTime())?(end-birth)/(365.2425*86400000):65;
- // Explicit modelling assumption, NOT an official mortality table.
- const annuity=Math.max(12,Math.min(26,20+(65-age)*0.32));
- const auxB=capital/annuity/12;
- // No assumption that all gross supplements are eligible for MTPY.
- // Basic salary proxy from wage basis; no unverified additional dividend components.
- const mtBasic=wage*0.80;
- const mtYears=Math.max(0,service);
- const mtpy=mtYears>=20?mtBasic*mtYears*0.00215:0;
- return {auxA,auxB,aux:auxA+auxB,mtpy,pre,post,annuity,mtYears,age,capital,mtBasic};
+ const annuity=optionalNonNegative('auxAnnuity')??Math.max(12,Math.min(26,20+(65-age)*0.32));
+ const auxB=annuity>0?capital/annuity/12:0;
+ // ΜΤΠΥ: τελευταίος βασικός (όχι 80% της μέσης κύριας βάσης) και χωριστές λοιπές αποδοχές.
+ const exitService=yearsBetweenDates(start,end);
+ const exitTable=end<new Date('2027-01-01')?oldPayData:newPayData;
+ const exitScale=salaryScaleForAverage(exitService,family,exitTable);
+ const basicOverride=optionalNonNegative('mtpyBasicAtExit');
+ const mtBasic=basicOverride??(Number(exitScale.basic)||wage*0.80);
+ const mtOther=optionalNonNegative('mtpyOtherInsured')??0;
+ const mtYears=optionalNonNegative('mtpyInsuredYears')??Math.max(0,service);
+ const mtRate=(optionalNonNegative('mtpyAnnualRate')??0.215)/100;
+ const mtpy=mtYears>=20?(mtBasic+mtOther)*mtYears*mtRate:0;
+ return {auxA,auxB,aux:auxA+auxB,mtpy,pre,post,annuity,mtYears,age,capital,modelCapital,actualCapital,observed,projected,mtBasic,mtOther,mtRate,oldWage};
 }
 function calculateAuxiliaryFromInputs(){
  const x=autoExtrasEstimate();const el=document.getElementById('auxPensionResult');
- if(el)el.innerHTML=x?`<b>Επικουρική: ${fmtEuro(x.aux)} / μήνα μεικτά</b><br><small>Έως 2014: ${fmtEuro(x.auxA)} (${x.pre.toFixed(1)} έτη) · Από 2015: ${fmtEuro(x.auxB)} (${x.post.toFixed(1)} έτη). Παραδοχές: ιστορική βάση 90% του μέσου σεναρίου, εισφορές 6%, μηδενική μη τεκμηριωμένη αναπροσαρμογή, ενδεικτική ράντα ${x.annuity.toFixed(2)}.</small>`:'Συμπλήρωσε ημερομηνία διορισμού στο προφίλ και έγκυρο μέσο μισθό στο σενάριο.';
+ if(el)el.innerHTML=x?`<b>Επικουρική: ${fmtEuro(x.aux)} / μήνα μεικτά</b><br><small>Έως 2014: ${fmtEuro(x.auxA)} (${x.pre.toFixed(1)} έτη) · Από 2015: ${fmtEuro(x.auxB)} (${x.post.toFixed(1)} έτη). Προ-2015 βάση ${fmtEuro(x.oldWage)} (proxy εάν δεν συμπληρώθηκε) · από 2015 κεφάλαιο ${fmtEuro(x.capital)} (${x.actualCapital===null?`μοντέλο: ${x.observed} μήνες από κύρια βάση εκκαθαριστικών ως proxy + ${x.projected} μήνες μισθολογικής πρόβλεψης`:`εισαγωγή χρήστη`}). Δεν εφαρμόζεται gk αναπροσαρμογή. Ενδεικτική ράντα ${x.annuity.toFixed(2)} — ΟΧΙ επίσημος συντελεστής.</small>`:'Συμπλήρωσε ημερομηνία διορισμού στο προφίλ και έγκυρο μέσο μισθό στο σενάριο.';
  return {a:x?.auxA??null,b:x?.auxB??null,total:x?.aux??null};
 }
 function calculateMtpyFromInputs(){
  const x=autoExtrasEstimate();const el=document.getElementById('mtpyPensionResult');
- if(el)el.innerHTML=x?`<b>Μέρισμα ΜΤΠΥ: ${fmtEuro(x.mtpy)} / μήνα μεικτά</b><br><small>${x.mtYears.toFixed(1)} έτη· ${x.mtYears<20?'Δεν συμπληρώθηκαν 20 έτη. ':''}Εκτίμηση βασικού μισθού 80% της βάσης σεναρίου. Συντελεστής αναφοράς 0,215% (2016), ΟΧΙ επιβεβαιωμένος για το έτος αποχώρησης. Δεν προσμετρώνται μη τεκμηριωμένες λοιπές αποδοχές.</small>`:'Απαιτείται ημερομηνία διορισμού και εκτίμηση μέσου μισθού.';
+ if(el)el.innerHTML=x?`<b>Μέρισμα ΜΤΠΥ: ${fmtEuro(x.mtpy)} / μήνα μεικτά</b><br><small>${x.mtYears.toFixed(1)} έτη· ${x.mtYears<20?'Δεν συμπληρώθηκαν 20 έτη. ':''}Βασικός αποχώρησης ${fmtEuro(x.mtBasic)} (${optionalNonNegative('mtpyBasicAtExit')===null?'πρόβλεψη πίνακα':'χρήστης'}), λοιπές αποδοχές με αποδεδειγμένη κράτηση ${fmtEuro(x.mtOther)}. Συντελεστής ${(x.mtRate*100).toFixed(3)}% — χρειάζεται επαλήθευση για το έτος αποχώρησης. Δεν πιστοποιούνται χρόνος/εισφορές ΜΤΠΥ.</small>`:'Απαιτείται ημερομηνία διορισμού και εκτίμηση μέσου μισθού.';
  return x?.mtpy??null;
 }
 function updateManualPension(){
@@ -2545,7 +2666,7 @@ function updateManualPension(){
    projectionInfo.textContent=scenarioWageIsManual
      ? 'Χειροκίνητη τιμή μέσου μισθού. Πάτησε το κουμπί για επαναφορά στην αυτόματη πρόβλεψη.'
      : projection?.avg>0
-       ? `Αυτόματη εκτίμηση έως ${date} (${projection.months} μήνες, ${projection.oldMonths} ενιαίο + ${projection.newMonths} ειδικό). Ελεγμένα αριθμητικά δείγματα: ${projection.payslipMonths||0}, προσωρινή προέκταση: ${projection.interpolatedMonths||0}, πίνακες Κερμανίδη: ${projection.estimatedMonths||0}. Χωρίς ιστορική αναπροσαρμογή ΕΦΚΑ.${projection.past?' Τα επιλεγμένα έτη έχουν ήδη συμπληρωθεί.':''}`
+       ? `Αυτόματη εκτίμηση έως ${date} (${projection.months} μήνες, ${projection.oldMonths} ενιαίο + ${projection.newMonths} ειδικό). Ελεγμένα αριθμητικά δείγματα: ${projection.payslipMonths||0}, προσωρινή προέκταση: ${projection.interpolatedMonths||0}, μήνες μοντέλου αγκύρωσης: ${projection.estimatedMonths||0} (συντελεστής ${Number(projection.anchorRatio||1).toFixed(3)}). Χωρίς ιστορική αναπροσαρμογή ΕΦΚΑ.${projection.past?' Τα επιλεγμένα έτη έχουν ήδη συμπληρωθεί.':''}`
        : 'Για πρόβλεψη συμπλήρωσε ημερομηνία διορισμού στο Προφίλ.';
  }
 
@@ -2583,12 +2704,12 @@ function updateManualPension(){
     ['Μεικτή κύρια σύνταξη',gross===null?'—':euro(gross)],
     ['Ενδεικτική κράτηση υγείας 6%',health===null?'—':euro(health)],
     ['Μετά την κράτηση υγείας, προ φόρου',gross===null?'—':euro(gross-health)],
-    ['Επικουρική μεικτά (εκτίμηση)',extras?euro(extras.aux):'—'],
-    ['Μέρισμα ΜΤΠΥ μεικτά (εκτίμηση)',extras?euro(extras.mtpy):'—'],
+    ['Επικουρική μεικτά (ΜΗ ΕΠΑΛΗΘΕΥΜΕΝΗ εκτίμηση)',extras?euro(extras.aux):'—'],
+    ['Μέρισμα ΜΤΠΥ μεικτά (ΜΗ ΕΠΑΛΗΘΕΥΜΕΝΗ εκτίμηση)',extras?euro(extras.mtpy):'—'],
     ['ΣΥΝΟΛΟ ΜΕΙΚΤΩΝ',netEstimate?euro(netEstimate.gross):'—'],
     ['Εκτίμηση υγείας κύριας + επικουρικής',netEstimate?euro(netEstimate.healthMain+netEstimate.healthAux):'—'],
     ['Εκτίμηση μηνιαίου φόρου',netEstimate?euro(netEstimate.tax):'—'],
-    ['ΕΚΤΙΜΩΜΕΝΑ ΚΑΘΑΡΑ / ΜΗΝΑ',netEstimate?euro(netEstimate.net):'—']
+    ['ΕΚΤΙΜΩΜΕΝΑ ΚΑΘΑΡΑ / ΜΗΝΑ (ΜΗ ΕΠΑΛΗΘΕΥΜΕΝΑ)',netEstimate?euro(netEstimate.net):'—']
    ];
    table.innerHTML=values.map(([k,v])=>`<tr><td>${k}</td><td>${v}</td></tr>`).join('');
  }
@@ -2612,16 +2733,14 @@ function calculatePension(){
   if(totalBreak) totalBreak.textContent=`ΥΕΦΚΚ ${fmtYearsMonths(yefkk)} + άλλα ταμεία ${fmtYearsMonths(otherYears)} + πλασματικά ${fmtYearsMonths(plastic)} + μάχιμη 5ετία ${combatFiveYears} έτη`;
 
   const age=Number(document.getElementById('age').value)||0;
-  const avgObj=autoAverageFromSalaryTables();
+  const avgObj=kermanidisLockedAverage();
   const legacyEstimateEnabled=!!document.getElementById('legacyEstimateToggle')?.checked;
   const wage=avgObj.avg||0;
   document.getElementById('avgWage').value=wage?Number(wage.toFixed(2)):'';
   const avgInfo=document.getElementById('avgWageInfo');
   if(avgInfo){
-    avgInfo.textContent=!legacyEstimateEnabled
-      ? 'Μη διαθέσιμος τεκμηριωμένος μέσος: δεν υπάρχουν πλήρεις μηνιαίες ασφαλιστέες αποδοχές και αναπροσαρμογές 2002–σήμερα. Ενεργοποίησε την παλαιά προσομοίωση μόνο για σύγκριση.'
-      : avgObj.months
-      ? `Μικτή εκτίμηση έως σήμερα • ${avgObj.months} μήνες • δείγματα βάσης: ${avgObj.payslipMonths||0} • προσωρινή προέκταση: ${avgObj.interpolatedMonths||0} • πίνακες Κερμανίδη: ${avgObj.estimatedMonths||0} • Ενιαίο: ${avgObj.oldMonths} • Ειδικό: ${avgObj.newMonths} (από 01/10/2026). Όχι πιστοποιημένες ή ιστορικά αναπροσαρμοσμένες συντάξιμες αποδοχές ΕΦΚΑ`
+    avgInfo.textContent=avgObj.months
+      ? `Κλειδωμένος συγκριτής Κερμανίδη • baseline 10/10/2026 • ${avgObj.months} μήνες • Ενιαίο: ${avgObj.oldMonths} • Ειδικό: ${avgObj.newMonths}. Δεν επηρεάζεται από τις δοκιμές ιστορικής βάσης ΥΕΦΚΚ.`
       : 'Συμπλήρωσε ημερομηνία διορισμού στο Προφίλ για αυτόματο υπολογισμό.';
   }
 
@@ -2712,8 +2831,8 @@ function calculatePension(){
       <div class="card"><span class="muted">Κύρια μετά την υγεία, πριν τον φόρο</span><div class="value purple">${fmtEuro(detail.net)}</div><small class="muted">Υπολογίζεται μετά την κράτηση περίθαλψης 6%, χωρίς αφαίρεση φόρου εισοδήματος. Η εφαρμογή δεν εκτιμά το ποσό της μηνιαίας φορολογικής παρακράτησης.</small></div>
     </div>
     <div class="card"><span class="muted">Σύνολο μεικτών κύριας + επικουρικής + ΜΤΠΥ</span><div class="value">${completeExtras?fmtEuro(combinedGross):'—'}</div></div>
-    <div class="card" style="border:2px solid #62c7a2"><span class="muted">ΕΚΤΙΜΩΜΕΝΑ ΚΑΘΑΡΑ / ΜΗΝΑ</span><div class="value green">${netResult?fmtEuro(netResult.net):'—'}</div><small>Υγεία κύριας: ${netResult?fmtEuro(netResult.healthMain):'—'} · υγεία επικουρικής: ${netResult?fmtEuro(netResult.healthAux):'—'} · εκτιμώμενος φόρος: ${netResult?fmtEuro(netResult.tax):'—'}.</small></div>
-    <div class="notice">Τα καθαρά αποτελούν προσεγγιστική μηνιαία εκτίμηση με φορολογική κλίμακα 2026 και 12 καταβολές. Δεν αφαιρούνται τυχόν ΕΑΣ, ειδικές κρατήσεις μερίσματος, συμψηφισμοί ή άλλες προσωπικές επιβαρύνσεις. Το τελικό πληρωτέο μπορεί να διαφέρει.</div>`;
+    <div class="card" style="border:2px solid #62c7a2"><span class="muted">ΕΚΤΙΜΩΜΕΝΑ ΚΑΘΑΡΑ / ΜΗΝΑ — ΜΗ ΕΠΑΛΗΘΕΥΜΕΝΑ</span><div class="value green">${netResult?fmtEuro(netResult.net):'—'}</div><small>Υγεία κύριας: ${netResult?fmtEuro(netResult.healthMain):'—'} · υγεία επικουρικής: ${netResult?fmtEuro(netResult.healthAux):'—'} · εκτιμώμενος φόρος: ${netResult?fmtEuro(netResult.tax):'—'}.</small></div>
+    <div class="notice"><b>v8.8 · Βάση ενημερώσεων:</b> Η κύρια σύνταξη και ο κλειδωμένος συγκριτής διατηρήθηκαν. Νέες μισθοδοσίες/ΦΕΚ ενσωματώνονται σε επόμενη έκδοση μετά από έλεγχο, όχι αυτόματα με απλή μεταφόρτωση στον ιστότοπο.</div><div class="notice">ΠΡΟΣΟΧΗ: Οι 190 μήνες μισθοδοσίας έχουν απογραφεί, αλλά οι κρατήσεις επικουρικής/ΜΤΠΥ δεν έχουν αντιστοιχιστεί πλήρως ανά μήνα. Οι εμφανιζόμενοι αριθμοί δεν είναι εξακριβωμένα δικαιώματα. Τα ποσά αυτά είναι υποθετικά και ενδέχεται να αποκλίνουν σημαντικά. Τα καθαρά αποτελούν προσεγγιστική μηνιαία εκτίμηση με φορολογική κλίμακα 2026 και 12 καταβολές. Δεν αφαιρούνται τυχόν ΕΑΣ, ειδικές κρατήσεις μερίσματος, συμψηφισμοί ή άλλες προσωπικές επιβαρύνσεις. Το τελικό πληρωτέο μπορεί να διαφέρει.</div>`;
 }
 function syncPensionProfile(){
   const appointment=(document.getElementById('profAppointment')?.value || localStorage.getItem('yefkk_profAppointment') || '');
